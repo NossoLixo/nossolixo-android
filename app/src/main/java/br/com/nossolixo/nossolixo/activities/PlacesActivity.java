@@ -51,7 +51,8 @@ public class PlacesActivity extends AppCompatActivity
     }
 
     private void enableMyLocation() {
-        if (ableToLocale()) {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
             animateToMyLocation();
         } else if (mMap != null) {
@@ -70,8 +71,8 @@ public class PlacesActivity extends AppCompatActivity
         }
 
         if (PermissionUtils.isPermissionGranted(permissions,
-                                                grantResults,
-                                                Manifest.permission.ACCESS_FINE_LOCATION)) {
+                grantResults,
+                Manifest.permission.ACCESS_FINE_LOCATION)) {
             enableMyLocation();
         }
     }
@@ -98,7 +99,6 @@ public class PlacesActivity extends AppCompatActivity
                 } else {
                     Log.d("Error", String.valueOf(response.raw()));
                 }
-                animateToMyLocation();
             }
 
             @Override
@@ -115,23 +115,19 @@ public class PlacesActivity extends AppCompatActivity
     }
 
     private void animateToMyLocation() {
-        if (!ableToLocale()) {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
             return;
         }
         LocationManager locationManager =
                 (LocationManager) getSystemService(Context.LOCATION_SERVICE);
         Criteria criteria = new Criteria();
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
-        String provider = locationManager.getBestProvider(criteria,true);
+        String provider = locationManager.getBestProvider(criteria, true);
         Location mostRecentLocation = locationManager.getLastKnownLocation(provider);
         LatLng myLocation = new LatLng(mostRecentLocation.getLatitude(),
                 mostRecentLocation.getLongitude());
         mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 12));
-    }
-
-    private boolean ableToLocale() {
-        return ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED;
     }
 
     private void setupMap() {
