@@ -10,7 +10,7 @@ public class Place {
     private String description;
     private String street;
     private String number;
-    private String destrict;
+    private String district;
     private String lat;
     private String lng;
     private String email;
@@ -60,12 +60,12 @@ public class Place {
         this.number = number;
     }
 
-    public String getDestrict() {
-        return destrict;
+    public String getDistrict() {
+        return district;
     }
 
-    public void setDestrict(String destrict) {
-        this.destrict = destrict;
+    public void setDistrict(String district) {
+        this.district = district;
     }
 
     public String getLat() {
