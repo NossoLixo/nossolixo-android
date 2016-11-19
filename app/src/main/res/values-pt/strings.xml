@@ -4,5 +4,6 @@
     <string name="navigation_drawer_close">Fechar menu</string>
     <string name="navigation_drawer_open">Abrir menu</string>
     <string name="nav_categories">Filtrar por categoria</string>
+    <string name="reset_filter">Limpar filtro</string>
     <string name="loading">Carregando...</string>
 </resources>

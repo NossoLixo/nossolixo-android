@@ -4,5 +4,6 @@
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_categories">Filter by category</string>
+    <string name="reset_filter">Reset filter</string>
     <string name="loading">Loading...</string>
 </resources>

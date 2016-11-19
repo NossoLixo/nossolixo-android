@@ -21,6 +21,8 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
@@ -216,6 +218,17 @@ public class MainActivity extends AppCompatActivity
                     List<Category> categories = response.body();
                     Menu menu = navigationView.getMenu();
                     SubMenu subMenu = menu.addSubMenu(R.string.nav_categories);
+                    final MenuItem resetFilter = subMenu.add(R.string.reset_filter);
+                    resetFilter.setIcon(R.drawable.ic_highlight_off_black_24dp);
+                    resetFilter.setVisible(false);
+                    resetFilter.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem menuItem) {
+                            loadPlaces();
+                            resetFilter.setVisible(false);
+                            return false;
+                        }
+                    });
                     for (final Category category : categories) {
                         MenuItem item = subMenu.add(category.getName());
                         item.setIcon(R.drawable.ic_place_black_24dp);
@@ -223,6 +236,7 @@ public class MainActivity extends AppCompatActivity
                             @Override
                             public boolean onMenuItemClick(MenuItem menuItem) {
                                 loadPlaces(category.getId());
+                                resetFilter.setVisible(true);
                                 return false;
                             }
                         });
