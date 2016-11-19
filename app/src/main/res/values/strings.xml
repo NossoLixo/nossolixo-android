@@ -1,9 +1,9 @@
 <resources>
-    <string name="app_name">Nosso Lixo</string>
+    <string name="app_name" translatable="false">Nosso Lixo</string>
     <string name="title_activity_main">Places</string>
-
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-
     <string name="action_settings">Settings</string>
+    <string name="nav_categories">Categories</string>
+    <string name="loading">Loading...</string>
 </resources>
