@@ -15,6 +15,6 @@ public interface PlaceService {
     @GET("places")
     Call<List<Place>> listPlacesByCategory(@Query("category") String category);
 
-    @GET("place/{id}")
+    @GET("places/{id}")
     Call<Place> find(@Path("id") String placeId);
 }
