@@ -29,6 +29,7 @@ import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
 import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.MarkerOptions;
 
@@ -188,7 +189,8 @@ public class MainActivity extends AppCompatActivity
                     for (Place place : places) {
                         mMap.addMarker(new MarkerOptions()
                                 .position(place.getLatLng())
-                                .title(place.getName()));
+                                .title(place.getName()))
+                                .setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
                     }
                 } else {
                     Log.d("Error", String.valueOf(response.raw()));
