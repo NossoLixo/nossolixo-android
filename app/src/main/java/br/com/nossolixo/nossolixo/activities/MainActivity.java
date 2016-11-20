@@ -233,6 +233,7 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void loadCategories() {
+        final MainActivity context = this;
         CategoryService client = ServiceGenerator.createService(CategoryService.class);
         Call<List<Category>> call = client.listCategories();
         call.enqueue(new Callback<List<Category>>() {
@@ -265,6 +266,16 @@ public class MainActivity extends AppCompatActivity
                             }
                         });
                     }
+                    MenuItem about = menu.add(R.string.about);
+                    about.setIcon(R.drawable.ic_error_black_24dp);
+                    about.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
+                        @Override
+                        public boolean onMenuItemClick(MenuItem menuItem) {
+                            Intent intent = new Intent(context, AboutActivity.class);
+                            context.startActivity(intent);
+                            return false;
+                        }
+                    });
                 } else {
                     Log.d("Error", String.valueOf(response.raw()));
                 }

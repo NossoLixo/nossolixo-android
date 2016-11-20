@@ -28,4 +28,9 @@
     <style name="PlaceDetailTextAppearance">
         <item name="android:textSize">14dp</item>
     </style>
+
+    <style name="AboutTextAppearance">
+        <item name="android:textSize">18dp</item>
+        <item name="android:textColor">@android:color/white</item>
+    </style>
 </resources>

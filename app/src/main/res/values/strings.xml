@@ -5,6 +5,9 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="nav_categories">Filter by category</string>
     <string name="reset_filter">Reset filter</string>
+    <string name="about">About this app</string>
     <string name="loading">Loading...</string>
     <string name="collects">Collects:</string>
+    <string name="about_description">It is an open source app and gets all data from "Nosso Lixo" open source API.</string>
+    <string name="about_project">Your collaboration is welcome :) - https://github.com/NossoLixo</string>
 </resources>
