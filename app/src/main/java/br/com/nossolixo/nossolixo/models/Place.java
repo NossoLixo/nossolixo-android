@@ -1,6 +1,7 @@
 package br.com.nossolixo.nossolixo.models;
 
 import com.google.android.gms.maps.model.LatLng;
+import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
 
@@ -13,6 +14,10 @@ public class Place {
     private String district;
     private String lat;
     private String lng;
+
+    @SerializedName("phone_number")
+    private String phoneNumber;
+
     private String email;
     private String site;
     private Boolean approved;
@@ -84,6 +89,14 @@ public class Place {
         this.lng = lng;
     }
 
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -134,5 +147,9 @@ public class Place {
 
     public LatLng getLatLng() {
         return new LatLng(Double.parseDouble(lat), Double.parseDouble(lng));
+    }
+
+    public String getAddress() {
+        return street + ", " + number + " - " + district + ". " + city + "/" + state;
     }
 }
