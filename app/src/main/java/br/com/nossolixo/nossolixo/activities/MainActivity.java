@@ -38,6 +38,7 @@ import java.util.List;
 import br.com.nossolixo.nossolixo.R;
 import br.com.nossolixo.nossolixo.fragments.PlaceDetailFragment;
 import br.com.nossolixo.nossolixo.helpers.ProgressDialogHelper;
+import br.com.nossolixo.nossolixo.helpers.ToastHelper;
 import br.com.nossolixo.nossolixo.models.Category;
 import br.com.nossolixo.nossolixo.models.Place;
 import br.com.nossolixo.nossolixo.services.CategoryService;
@@ -179,7 +180,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void buildMapPlaces(Call<List<Place>> call) {
-        final ProgressDialogHelper progressDialog = new ProgressDialogHelper(this,
+        final MainActivity context = this;
+        final ProgressDialogHelper progressDialog = new ProgressDialogHelper(context,
                 getResources().getString(R.string.loading));
         progressDialog.show();
 
@@ -197,6 +199,7 @@ public class MainActivity extends AppCompatActivity
                         markers.put(marker, place.getId());
                     }
                 } else {
+                    ToastHelper.show(context, R.string.places_load_error);
                     Log.d("Error", String.valueOf(response.raw()));
                 }
                 if (progressDialog.isShowing()) {
@@ -207,6 +210,7 @@ public class MainActivity extends AppCompatActivity
             @Override
             public void onFailure(Call<List<Place>> call, Throwable t) {
                 Log.d("Error", t.getMessage());
+                ToastHelper.show(context, R.string.places_load_error);
                 if (progressDialog.isShowing()) {
                     progressDialog.hide();
                 }
@@ -222,7 +226,6 @@ public class MainActivity extends AppCompatActivity
             public boolean onMarkerClick(Marker marker) {
                 Intent intent = new Intent(context, PlaceDetailActivity.class);
                 intent.putExtra(PlaceDetailFragment.ARG_ITEM_ID, markers.get(marker));
-
                 context.startActivity(intent);
                 return false;
             }
@@ -274,12 +277,14 @@ public class MainActivity extends AppCompatActivity
                         }
                     });
                 } else {
+                    ToastHelper.show(context, R.string.categories_load_error);
                     Log.d("Error", String.valueOf(response.raw()));
                 }
             }
 
             @Override
             public void onFailure(Call<List<Category>> call, Throwable t) {
+                ToastHelper.show(context, R.string.categories_load_error);
                 Log.d("Error", t.getMessage());
             }
         });

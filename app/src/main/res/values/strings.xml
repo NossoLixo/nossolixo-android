@@ -3,6 +3,9 @@
     <string name="title_activity_main">Places</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="categories_load_error">Could not load the filters :(</string>
+    <string name="places_load_error">Could not load the places :(</string>
+    <string name="place_load_error">Could not load the place :(</string>
     <string name="nav_categories">Filter by category</string>
     <string name="reset_filter">Reset filter</string>
     <string name="about">About this app</string>

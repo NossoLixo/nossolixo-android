@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import br.com.nossolixo.nossolixo.R;
 import br.com.nossolixo.nossolixo.adapters.PlaceCategoryListAdapter;
 import br.com.nossolixo.nossolixo.helpers.ProgressDialogHelper;
+import br.com.nossolixo.nossolixo.helpers.ToastHelper;
 import br.com.nossolixo.nossolixo.models.Category;
 import br.com.nossolixo.nossolixo.models.Place;
 import br.com.nossolixo.nossolixo.services.PlaceService;
@@ -120,6 +121,7 @@ public class PlaceDetailFragment extends Fragment {
                                     categoriesNames));
                         }
                     } else {
+                        ToastHelper.show(activity, R.string.place_load_error);
                         Log.d("Error", String.valueOf(response.raw()));
                     }
                     if (progressDialog.isShowing()) {
@@ -129,6 +131,7 @@ public class PlaceDetailFragment extends Fragment {
 
                 @Override
                 public void onFailure(Call<Place> call, Throwable t) {
+                    ToastHelper.show(activity, R.string.place_load_error);
                     Log.d("Error", t.getMessage());
                     if (progressDialog.isShowing()) {
                         progressDialog.hide();

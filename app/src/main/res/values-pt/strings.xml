@@ -4,6 +4,9 @@
     <string name="navigation_drawer_close">Fechar menu</string>
     <string name="navigation_drawer_open">Abrir menu</string>
     <string name="nav_categories">Filtrar por categoria</string>
+    <string name="categories_load_error">Não foi possível carregar os filtros :(</string>
+    <string name="places_load_error">Não foi possível carregar os pontos de coletas :(</string>
+    <string name="place_load_error">Não foi possível carregar o ponto de coleta :(</string>
     <string name="reset_filter">Limpar filtro</string>
     <string name="about">Sobre o aplicativo</string>
     <string name="loading">Carregando...</string>
