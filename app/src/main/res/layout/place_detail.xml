@@ -56,6 +56,6 @@
     <ListView
         android:id="@+id/place_categories"
         android:layout_width="match_parent"
-        android:layout_height="500dp"
+        android:layout_height="300dp"
         android:divider="@color/colorAccent" />
 </LinearLayout>
