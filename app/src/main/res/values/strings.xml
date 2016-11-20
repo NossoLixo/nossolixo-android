@@ -8,6 +8,7 @@
     <string name="place_load_error">Could not load the place :(</string>
     <string name="nav_categories">Filter by category</string>
     <string name="reset_filter">Reset filter \"%1$s\"</string>
+    <string name="saved_filter">Filtering by \"%1$s\"</string>
     <string name="about">About this app</string>
     <string name="loading">Loading...</string>
     <string name="collects">Collects:</string>

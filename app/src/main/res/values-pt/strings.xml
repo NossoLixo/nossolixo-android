@@ -8,6 +8,7 @@
     <string name="places_load_error">Não foi possível carregar os pontos de coletas :(</string>
     <string name="place_load_error">Não foi possível carregar o ponto de coleta :(</string>
     <string name="reset_filter">Limpar filtro \"%1$s\"</string>
+    <string name="saved_filter">Filtrando por \"%1$s\"</string>
     <string name="about">Sobre o aplicativo</string>
     <string name="loading">Carregando...</string>
     <string name="collects">Coleta:</string>

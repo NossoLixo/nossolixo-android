@@ -1,9 +1,12 @@
 package br.com.nossolixo.nossolixo.activities;
 
 import android.Manifest;
+import android.content.ContentValues;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationManager;
@@ -40,8 +43,10 @@ import br.com.nossolixo.nossolixo.fragments.PlaceDetailFragment;
 import br.com.nossolixo.nossolixo.helpers.ProgressDialogHelper;
 import br.com.nossolixo.nossolixo.helpers.ToastHelper;
 import br.com.nossolixo.nossolixo.models.Category;
+import br.com.nossolixo.nossolixo.models.Filters.Filter;
 import br.com.nossolixo.nossolixo.models.Place;
 import br.com.nossolixo.nossolixo.services.CategoryService;
+import br.com.nossolixo.nossolixo.services.FilterService;
 import br.com.nossolixo.nossolixo.services.PlaceService;
 import br.com.nossolixo.nossolixo.services.ServiceGenerator;
 import br.com.nossolixo.nossolixo.utils.PermissionUtils;
@@ -59,6 +64,7 @@ public class MainActivity extends AppCompatActivity
     private GoogleMap mMap;
     private NavigationView navigationView;
     private HashMap<Marker, String> markers = new HashMap<>();
+    private FilterService filterService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -73,9 +79,10 @@ public class MainActivity extends AppCompatActivity
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        filterService = new FilterService(this);
+
         navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
-        loadCategories();
 
         SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
                 .findFragmentById(R.id.map);
@@ -133,7 +140,7 @@ public class MainActivity extends AppCompatActivity
         mMap.setOnMyLocationButtonClickListener(this);
         enableMyLocation();
         setupMap();
-        loadPlaces();
+        loadCategories();
         bindMarkers();
     }
 
@@ -234,15 +241,18 @@ public class MainActivity extends AppCompatActivity
 
     private void loadCategories() {
         final MainActivity context = this;
+
         CategoryService client = ServiceGenerator.createService(CategoryService.class);
         Call<List<Category>> call = client.listCategories();
         call.enqueue(new Callback<List<Category>>() {
             @Override
             public void onResponse(Call<List<Category>> call, Response<List<Category>> response) {
                 if (response.isSuccessful()) {
-                    List<Category> categories = response.body();
+                    final List<Category> categories = response.body();
+
                     Menu menu = navigationView.getMenu();
                     SubMenu subMenu = menu.addSubMenu(R.string.nav_categories);
+
                     final MenuItem resetFilter = subMenu.add(R.string.reset_filter);
                     resetFilter.setIcon(R.drawable.ic_highlight_off_black_24dp);
                     resetFilter.setVisible(false);
@@ -254,19 +264,27 @@ public class MainActivity extends AppCompatActivity
                             return false;
                         }
                     });
+
+                    Category currentFilter = currentFilter();
+                    if (currentFilter == null) {
+                        loadPlaces();
+                    } else {
+                        setFilter(currentFilter, resetFilter);
+                        ToastHelper.show(context, getString(R.string.saved_filter, currentFilter.getName()));
+                    }
+
                     for (final Category category : categories) {
                         MenuItem item = subMenu.add(category.getName());
                         item.setIcon(R.drawable.ic_place_black_24dp);
                         item.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                             @Override
                             public boolean onMenuItemClick(MenuItem menuItem) {
-                                loadPlaces(category.getId());
-                                resetFilter.setTitle(getResources().getString(R.string.reset_filter, menuItem.getTitle()));
-                                resetFilter.setVisible(true);
+                                setFilter(category, resetFilter);
                                 return false;
                             }
                         });
                     }
+
                     MenuItem about = menu.add(R.string.about);
                     about.setIcon(R.drawable.ic_error_black_24dp);
                     about.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
@@ -289,5 +307,34 @@ public class MainActivity extends AppCompatActivity
                 Log.d("Error", t.getMessage());
             }
         });
+    }
+
+    private Category currentFilter() {
+        SQLiteDatabase db = filterService.getReadableDatabase();
+        String[] projection = { Filter._ID, Filter.COLUMN_NAME_CATEGORY_ID, Filter.COLUMN_NAME_CATEGORY_NAME };
+        String selection = "";
+        String[] selectionArgs = {};
+
+        Cursor c = db.query(Filter.TABLE_NAME, projection, selection, selectionArgs, null, null, null);
+        if (c.getCount() == 0) {
+            return null;
+        }
+        c.moveToFirst();
+        Category category = new Category();
+        category.setId(c.getString(c.getColumnIndexOrThrow(Filter.COLUMN_NAME_CATEGORY_ID)));
+        category.setName(c.getString(c.getColumnIndexOrThrow(Filter.COLUMN_NAME_CATEGORY_NAME)));
+        return category;
+    }
+
+    private void setFilter(Category category, MenuItem resetFilter) {
+        SQLiteDatabase db = filterService.getWritableDatabase();
+        loadPlaces(category.getId());
+        resetFilter.setTitle(getResources().getString(R.string.reset_filter, category.getName()));
+        resetFilter.setVisible(true);
+        db.delete(Filter.TABLE_NAME, "", new String[] {});
+        ContentValues values = new ContentValues();
+        values.put(Filter.COLUMN_NAME_CATEGORY_ID, category.getId());
+        values.put(Filter.COLUMN_NAME_CATEGORY_NAME, category.getName());
+        db.insert(Filter.TABLE_NAME, null, values);
     }
 }
