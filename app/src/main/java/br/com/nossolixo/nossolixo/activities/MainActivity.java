@@ -261,6 +261,7 @@ public class MainActivity extends AppCompatActivity
                             @Override
                             public boolean onMenuItemClick(MenuItem menuItem) {
                                 loadPlaces(category.getId());
+                                resetFilter.setTitle(getResources().getString(R.string.reset_filter, menuItem.getTitle()));
                                 resetFilter.setVisible(true);
                                 return false;
                             }
