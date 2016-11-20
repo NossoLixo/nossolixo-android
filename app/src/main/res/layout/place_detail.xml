@@ -1,9 +1,61 @@
-<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/place_detail"
-    style="?android:attr/textAppearanceLarge"
+    tools:context="br.com.nossolixo.nossolixo.fragments.PlaceDetailFragment"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:padding="16dp"
-    android:textIsSelectable="false"
-    tools:context="br.com.nossolixo.nossolixo.fragments.PlaceDetailFragment" />
+    android:padding="@dimen/activity_horizontal_margin"
+    android:orientation="vertical">
+
+    <TextView
+        android:id="@+id/place_description"
+        android:textAppearance="@style/PlaceTitleTextAppearance"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="16dp" />
+
+    <TextView
+        android:id="@+id/place_address"
+        android:textAppearance="@style/PlaceDetailTextAppearance"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginBottom="6dp" />
+
+    <TextView
+        android:id="@+id/place_phone_number"
+        android:textAppearance="@style/PlaceDetailTextAppearance"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:autoLink="phone"
+        android:layout_marginBottom="6dp" />
+
+    <TextView
+        android:id="@+id/place_email"
+        android:textAppearance="@style/PlaceDetailTextAppearance"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:autoLink="email"
+        android:layout_marginBottom="6dp" />
+
+    <TextView
+        android:id="@+id/place_site"
+        android:textAppearance="@style/PlaceDetailTextAppearance"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:autoLink="web" />
+
+    <TextView
+        android:id="@+id/collects"
+        android:textAppearance="@style/PlaceTitleTextAppearance"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="@string/collects"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="10dp" />
+
+    <ListView
+        android:id="@+id/place_categories"
+        android:layout_width="match_parent"
+        android:layout_height="500dp"
+        android:divider="@color/colorAccent" />
+</LinearLayout>

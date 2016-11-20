@@ -19,4 +19,13 @@
         <item name="android:textColor">@color/colorPrimaryDark</item>
         <item name="android:textSize">14dp</item>
     </style>
+
+    <style name="PlaceTitleTextAppearance">
+        <item name="android:textColor">@color/colorPrimaryDark</item>
+        <item name="android:textSize">16dp</item>
+    </style>
+
+    <style name="PlaceDetailTextAppearance">
+        <item name="android:textSize">14dp</item>
+    </style>
 </resources>
