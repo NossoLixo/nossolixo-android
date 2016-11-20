@@ -10,7 +10,6 @@ import android.view.MenuItem;
 
 import br.com.nossolixo.nossolixo.R;
 import br.com.nossolixo.nossolixo.fragments.PlaceDetailFragment;
-import br.com.nossolixo.nossolixo.helpers.ProgressDialogHelper;
 
 public class PlaceDetailActivity extends AppCompatActivity {
     @Override
