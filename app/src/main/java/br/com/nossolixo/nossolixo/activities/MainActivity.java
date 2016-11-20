@@ -3,6 +3,7 @@ package br.com.nossolixo.nossolixo.activities;
 import android.Manifest;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.location.Criteria;
 import android.location.Location;
@@ -31,11 +32,15 @@ import com.google.android.gms.maps.SupportMapFragment;
 import com.google.android.gms.maps.UiSettings;
 import com.google.android.gms.maps.model.BitmapDescriptorFactory;
 import com.google.android.gms.maps.model.LatLng;
+import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 
+import java.util.HashMap;
 import java.util.List;
 
 import br.com.nossolixo.nossolixo.R;
+import br.com.nossolixo.nossolixo.fragments.PlaceDetailFragment;
+import br.com.nossolixo.nossolixo.helpers.ProgressDialogHelper;
 import br.com.nossolixo.nossolixo.models.Category;
 import br.com.nossolixo.nossolixo.models.Place;
 import br.com.nossolixo.nossolixo.services.CategoryService;
@@ -55,6 +60,7 @@ public class MainActivity extends AppCompatActivity
     private static final int LOCATION_PERMISSION_REQUEST_CODE = 1;
     private GoogleMap mMap;
     private NavigationView navigationView;
+    private HashMap<Marker, String> markers = new HashMap<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -130,6 +136,7 @@ public class MainActivity extends AppCompatActivity
         enableMyLocation();
         setupMap();
         loadPlaces();
+        bindMarkers();
     }
 
     @Override
@@ -175,10 +182,9 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void buildMapPlaces(Call<List<Place>> call) {
-        final ProgressDialog mProgressDialog = new ProgressDialog(this);
-        mProgressDialog.setIndeterminate(true);
-        mProgressDialog.setMessage(getResources().getString(R.string.loading));
-        mProgressDialog.show();
+        final ProgressDialogHelper progressDialog = new ProgressDialogHelper(this,
+                getResources().getString(R.string.loading));
+        progressDialog.show();
 
         call.enqueue(new Callback<List<Place>>() {
             @Override
@@ -187,25 +193,41 @@ public class MainActivity extends AppCompatActivity
                     List<Place> places = response.body();
                     mMap.clear();
                     for (Place place : places) {
-                        mMap.addMarker(new MarkerOptions()
-                                .position(place.getLatLng())
-                                .title(place.getName()))
-                                .setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
+                        Marker marker = mMap.addMarker(new MarkerOptions()
+                            .position(place.getLatLng())
+                            .title(place.getName()));
+                        marker.setIcon(BitmapDescriptorFactory.fromResource(R.mipmap.ic_launcher));
+                        markers.put(marker, place.getId());
                     }
                 } else {
                     Log.d("Error", String.valueOf(response.raw()));
                 }
-                if (mProgressDialog.isShowing()) {
-                    mProgressDialog.dismiss();
+                if (progressDialog.isShowing()) {
+                    progressDialog.hide();
                 }
             }
 
             @Override
             public void onFailure(Call<List<Place>> call, Throwable t) {
                 Log.d("Error", t.getMessage());
-                if (mProgressDialog.isShowing()) {
-                    mProgressDialog.dismiss();
+                if (progressDialog.isShowing()) {
+                    progressDialog.hide();
                 }
+            }
+        });
+    }
+
+    private void bindMarkers() {
+        final MainActivity context = this;
+
+        mMap.setOnMarkerClickListener(new GoogleMap.OnMarkerClickListener() {
+            @Override
+            public boolean onMarkerClick(Marker marker) {
+                Intent intent = new Intent(context, PlaceDetailActivity.class);
+                intent.putExtra(PlaceDetailFragment.ARG_ITEM_ID, markers.get(marker));
+
+                context.startActivity(intent);
+                return false;
             }
         });
     }
