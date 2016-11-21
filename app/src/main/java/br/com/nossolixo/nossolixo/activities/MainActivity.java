@@ -239,7 +239,7 @@ public class MainActivity extends AppCompatActivity
                 Intent intent = new Intent(context, PlaceDetailActivity.class);
                 intent.putExtra(PlaceDetailFragment.ARG_ITEM_ID, markers.get(marker));
                 context.startActivity(intent);
-                return false;
+                return true;
             }
         });
     }
