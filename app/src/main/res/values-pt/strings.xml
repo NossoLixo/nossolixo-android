@@ -15,4 +15,5 @@
     <string name="about_description">Esse aplicativo é open source e todos os dados são coletados na API open source do Nosso Lixo.</string>
     <string name="about_project">Sua colaboração é bem-vinda :) - https://github.com/NossoLixo.</string>
     <string name="no_location_detected">Não conseguimos resgatar sua localização atual :(</string>
+    <string name="enable_your_location">Ative sua localização se você quer ver pontos de coletas perto de você.</string>
 </resources>
