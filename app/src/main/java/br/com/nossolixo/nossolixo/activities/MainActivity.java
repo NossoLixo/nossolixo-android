@@ -264,8 +264,7 @@ public class MainActivity extends AppCompatActivity
                     resetFilter.setOnMenuItemClickListener(new MenuItem.OnMenuItemClickListener() {
                         @Override
                         public boolean onMenuItemClick(MenuItem menuItem) {
-                            loadPlaces();
-                            resetFilter.setVisible(false);
+                            resetFilter(resetFilter);
                             return false;
                         }
                     });
@@ -316,7 +315,7 @@ public class MainActivity extends AppCompatActivity
 
     private Category currentFilter() {
         SQLiteDatabase db = filterService.getReadableDatabase();
-        String[] projection = { Filter._ID, Filter.COLUMN_NAME_CATEGORY_ID, Filter.COLUMN_NAME_CATEGORY_NAME };
+        String[] projection = {Filter._ID, Filter.COLUMN_NAME_CATEGORY_ID, Filter.COLUMN_NAME_CATEGORY_NAME};
         String selection = "";
         String[] selectionArgs = {};
 
@@ -336,10 +335,17 @@ public class MainActivity extends AppCompatActivity
         loadPlaces(category.getId());
         resetFilter.setTitle(getResources().getString(R.string.reset_filter, category.getName()));
         resetFilter.setVisible(true);
-        db.delete(Filter.TABLE_NAME, "", new String[] {});
+        db.delete(Filter.TABLE_NAME, "", new String[]{});
         ContentValues values = new ContentValues();
         values.put(Filter.COLUMN_NAME_CATEGORY_ID, category.getId());
         values.put(Filter.COLUMN_NAME_CATEGORY_NAME, category.getName());
         db.insert(Filter.TABLE_NAME, null, values);
+    }
+
+    private void resetFilter(MenuItem resetFilter) {
+        loadPlaces();
+        resetFilter.setVisible(false);
+        SQLiteDatabase db = filterService.getWritableDatabase();
+        db.delete(Filter.TABLE_NAME, "", new String[]{});
     }
 }
