@@ -141,10 +141,10 @@ public class MainActivity extends AppCompatActivity
     public void onMapReady(GoogleMap googleMap) {
         mMap = googleMap;
         mMap.setOnMyLocationButtonClickListener(this);
-        enableMyLocation();
         setupMap();
-        loadCategories();
+        enableMyLocation();
         bindMarkers();
+        loadCategories();
     }
 
     @Override
