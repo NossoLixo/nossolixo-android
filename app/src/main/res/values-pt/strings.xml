@@ -14,4 +14,5 @@
     <string name="collects">Coleta:</string>
     <string name="about_description">Esse aplicativo é open source e todos os dados são coletados na API open source do Nosso Lixo.</string>
     <string name="about_project">Sua colaboração é bem-vinda :) - https://github.com/NossoLixo.</string>
+    <string name="no_location_detected">Não conseguimos resgatar sua localização atual :(</string>
 </resources>

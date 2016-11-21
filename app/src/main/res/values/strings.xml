@@ -14,4 +14,5 @@
     <string name="collects">Collects:</string>
     <string name="about_description">It is an open source app and gets all data from "Nosso Lixo" open source API.</string>
     <string name="about_project">Your collaboration is welcome :) - https://github.com/NossoLixo</string>
+    <string name="no_location_detected">Could not get your current location :(</string>
 </resources>
