@@ -31,13 +31,11 @@ android {
         properties.load(project.rootProject.file('local.properties').newDataInputStream())
         debug {
             resValue "string", "googleMapsApiKey", properties.getProperty('GOOGLE_MAPS_API_KEY')
-            resValue "string", "fabricApiKey", properties.getProperty('FABRIC_API_KEY')
         }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             resValue "string", "googleMapsApiKey", properties.getProperty('GOOGLE_MAPS_API_KEY')
-            resValue "string", "fabricApiKey", properties.getProperty('FABRIC_API_KEY')
         }
     }
 }
