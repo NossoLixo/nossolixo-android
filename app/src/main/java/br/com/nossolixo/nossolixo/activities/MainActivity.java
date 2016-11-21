@@ -164,9 +164,11 @@ public class MainActivity extends AppCompatActivity
         criteria.setAccuracy(Criteria.ACCURACY_FINE);
         String provider = locationManager.getBestProvider(criteria, true);
         Location mostRecentLocation = locationManager.getLastKnownLocation(provider);
-        LatLng myLocation = new LatLng(mostRecentLocation.getLatitude(),
-                mostRecentLocation.getLongitude());
-        mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 12));
+        if (mostRecentLocation != null) {
+            LatLng myLocation = new LatLng(mostRecentLocation.getLatitude(),
+                    mostRecentLocation.getLongitude());
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 12));
+        }
     }
 
     private void setupMap() {
