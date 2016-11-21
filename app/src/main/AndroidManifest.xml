@@ -61,6 +61,9 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="br.com.nossolixo.nossolixo.activities.MainActivity" />
         </activity>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="@string/fabricApiKey" />
     </application>
 
 </manifest>
