@@ -24,14 +24,40 @@
         android:layout_height="wrap_content"
         android:textAppearance="@style/AboutTextAppearance"
         android:text="@string/about_description"
-        android:layout_marginBottom="50dp"/>
+        android:layout_marginBottom="30dp"/>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:textAppearance="@style/AboutTextAppearance"
         android:text="@string/about_project"
-        android:layout_marginBottom="50dp"
-        android:autoLink="web"
-        android:textColorLink="@android:color/white"/>
+        android:layout_marginBottom="30dp" />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:textAppearance="@style/AboutTextAppearance"
+        android:text="@string/project_social_networks"
+        android:layout_marginBottom="10dp" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <ImageView
+            android:id="@+id/github_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_github" />
+
+        <ImageView
+            android:id="@+id/facebook_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:src="@drawable/ic_facebook_circle"
+            android:layout_marginLeft="24dp"
+            android:layout_marginStart="24dp"
+            android:layout_alignParentTop="true"
+            android:layout_toRightOf="@+id/github_icon"
+            android:layout_toEndOf="@+id/github_icon" />
+    </RelativeLayout>
 </LinearLayout>
