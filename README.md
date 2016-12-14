@@ -2,7 +2,7 @@
 
 ## Setup
 
-Add the Google Maps API Key in the `local.properties`
+Copy the `app/google-maps.properties.sample` to `app/google-maps.properties` and put your Google Maps API Key.
 
     GOOGLE_MAPS_API_KEY=your_api_key
 

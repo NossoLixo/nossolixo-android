@@ -28,7 +28,7 @@ android {
     }
     buildTypes {
         Properties properties = new Properties()
-        properties.load(project.rootProject.file('local.properties').newDataInputStream())
+        properties.load(project.rootProject.file('app/google-maps.properties').newDataInputStream())
         debug {
             resValue "string", "googleMapsApiKey", properties.getProperty('GOOGLE_MAPS_API_KEY')
         }
