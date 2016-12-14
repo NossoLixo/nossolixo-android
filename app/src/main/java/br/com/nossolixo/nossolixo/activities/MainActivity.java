@@ -1,21 +1,16 @@
 package br.com.nossolixo.nossolixo.activities;
 
 import android.Manifest;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.ContentValues;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
-import android.graphics.BitmapFactory;
 import android.location.Location;
 import android.os.Bundle;
-import android.provider.Settings;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -368,34 +363,7 @@ public class MainActivity extends AppCompatActivity
         if (mLastLocation != null) {
             LatLng myLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
             mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 12));
-        } else {
-            notifyEnableLocation();
         }
-    }
-
-    private void notifyEnableLocation() {
-        NotificationCompat.Builder mBuilder =
-            new NotificationCompat.Builder(this)
-                    .setSmallIcon(R.drawable.ic_laucher_notification)
-                    .setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.ic_launcher))
-                    .setContentTitle(getResources().getString(R.string.no_location_detected))
-                    .setContentText(getResources().getString(R.string.enable_your_location))
-                    .setAutoCancel(true);
-
-        Intent resultIntent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-
-        PendingIntent resultPendingIntent =
-            PendingIntent.getActivity(
-                this,
-                0,
-                resultIntent,
-                PendingIntent.FLAG_UPDATE_CURRENT
-            );
-
-        mBuilder.setContentIntent(resultPendingIntent);
-        int mNotificationId = 001;
-        NotificationManager mNotifyMgr = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        mNotifyMgr.notify(mNotificationId, mBuilder.build());
     }
 
     @Override
