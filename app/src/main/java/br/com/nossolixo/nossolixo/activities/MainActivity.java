@@ -137,9 +137,33 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void enableMyLocation() {
+        if (mMap == null) {
+            return;
+        }
+
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             mMap.setMyLocationEnabled(true);
+        }
+    }
+
+    private void animateToMyLocation() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) !=
+                PackageManager.PERMISSION_GRANTED) {
+            PermissionUtils.requestPermission(this,
+                    LOCATION_PERMISSION_REQUEST_CODE,
+                    Manifest.permission.ACCESS_COARSE_LOCATION);
+            return;
+        }
+
+        if (mMap == null) {
+            return;
+        }
+
+        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
+        if (mLastLocation != null) {
+            LatLng myLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
+            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 12));
         }
     }
 
@@ -164,6 +188,8 @@ public class MainActivity extends AppCompatActivity
         mMap = googleMap;
         mMap.setOnMyLocationButtonClickListener(this);
         setupMap();
+        enableMyLocation();
+        animateToMyLocation();
         bindMarkers();
         loadCategories();
     }
@@ -349,21 +375,6 @@ public class MainActivity extends AppCompatActivity
         resetFilter.setVisible(false);
         SQLiteDatabase db = filterService.getWritableDatabase();
         db.delete(Filter.TABLE_NAME, "", new String[]{});
-    }
-
-    private void animateToMyLocation() {
-        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) !=
-                PackageManager.PERMISSION_GRANTED) {
-            PermissionUtils.requestPermission(this,
-                    LOCATION_PERMISSION_REQUEST_CODE,
-                    Manifest.permission.ACCESS_COARSE_LOCATION);
-            return;
-        }
-        mLastLocation = LocationServices.FusedLocationApi.getLastLocation(mGoogleApiClient);
-        if (mLastLocation != null) {
-            LatLng myLocation = new LatLng(mLastLocation.getLatitude(), mLastLocation.getLongitude());
-            mMap.animateCamera(CameraUpdateFactory.newLatLngZoom(myLocation, 12));
-        }
     }
 
     @Override
